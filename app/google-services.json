@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "445431163676",
+    "firebase_url": "https://fisicab-a809e.firebaseio.com",
+    "project_id": "fisicab-a809e",
+    "storage_bucket": "fisicab-a809e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:445431163676:android:126bdf2f1efd820e",
+        "android_client_info": {
+          "package_name": "com.example.unbegrenzt.fisicab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "445431163676-vn1pvkgaquakod8gfjivvomjko764uc0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.unbegrenzt.fisicab",
+            "certificate_hash": "B9DFA8D3CD073413545C70F998502316DDE5A19D"
+          }
+        },
+        {
+          "client_id": "445431163676-cop3spphh3bmuji6hpsif6si1v49a0sp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB140gd285KXKI8qAtx0erojJNl0cPIG_4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "445431163676-cop3spphh3bmuji6hpsif6si1v49a0sp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
