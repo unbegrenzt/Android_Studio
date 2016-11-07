@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity
             estado = new aprendizaje();
             activo = true;
         } else if (id == R.id.nav_share) {
-            estado = new ejercicio_1();
+            estado = ejercicio_1.newInstance(123);
             activo = true;
 
         }
