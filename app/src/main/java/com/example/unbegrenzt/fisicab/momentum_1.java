@@ -35,11 +35,14 @@ public class momentum_1 extends Fragment {
     private String mParam1;
     private String mParam2;
     private String[]datossp = {"-Seleccione-","momentum","masa","velocidad"};
+    private String[]datossp2 = {"-Seleccione-","Mercurio","Venus","Tierra","Marte","Júpiter","Saturno",
+            "Urano","Neptuno","Plutón"};
     private EditText txt_masa;
     private EditText txt_veloc;
+    private EditText txt_ang;
+    private Spinner gravedad;
     private EditText txt_momentum;
     private Button btn_cal;
-    private TextView solucion;
     private Spinner sp_opc;
 
 
@@ -86,10 +89,13 @@ public class momentum_1 extends Fragment {
             txt_masa = (EditText) v.findViewById(R.id.txt_masa);
             txt_veloc = (EditText) v.findViewById(R.id.txt_veloc);
             txt_momentum = (EditText) v.findViewById(R.id.txt_momento);
+            txt_ang = (EditText) v.findViewById(R.id.txt_ang);
             btn_cal = (Button) v.findViewById(R.id.btn_cal);
-            solucion = (TextView) v.findViewById(R.id.soluc);
             sp_opc = (Spinner) v.findViewById(R.id.spinner);
+            gravedad = (Spinner) v.findViewById(R.id.spinner_grav);
+            ArrayAdapter adapter = new ArrayAdapter(getActivity().getApplicationContext(),R.layout.spiner_theme,datossp2);
             ArrayAdapter adaptor = new ArrayAdapter(getActivity().getApplicationContext(), R.layout.spiner_theme, datossp);
+            gravedad.setAdapter(adapter);
             sp_opc.setAdapter(adaptor);
         }
         return v;
@@ -122,13 +128,13 @@ public class momentum_1 extends Fragment {
                             m = Float.valueOf(String.valueOf(txt_masa.getText()));
                             veloc = Float.valueOf(String.valueOf(txt_veloc.getText()));
                             resul = m * veloc;
-                            solucion.setText(
+                            /*solucion.setText(
                                     "Datos recibidos:\n\n"
                                             + "masa = " + Float.toString(m) + " Kg\n"
                                             + "velocidad = " + Float.toString(veloc) + " m/s\n"
                                             + "momentum = ?\n\n"
                                             + "momentum = " + Float.toString(m) + " Kg * " + Float.toString(veloc) + " m/s\n"
-                                            + "momentum = " + Float.toString(resul) + " Kg*m/s");
+                                            + "momentum = " + Float.toString(resul) + " Kg*m/s");*/
                             txt_momentum.setText(Float.toString(resul));
                         } else {
                             Snackbar.make(view, "Faltan datos", Snackbar.LENGTH_LONG)
@@ -142,13 +148,13 @@ public class momentum_1 extends Fragment {
                             veloc = Float.valueOf(String.valueOf(txt_veloc.getText()));
                             moment = Float.valueOf(String.valueOf(txt_momentum.getText()));
                             resul = moment / veloc;
-                            solucion.setText(
+                            /*solucion.setText(
                                     "Datos recibidos:\n\n"
                                             + "masa = ?\n"
                                             + "velocidad = " + Float.toString(veloc) + " m/s\n"
                                             + "momentum =" + Float.toString(moment) + " Kg*m/s\n\n"
                                             + "masa = " + Float.toString(moment) + " Kg*m/s / " + Float.toString(veloc) + " m/s\n"
-                                            + "masa = " + Float.toString(resul) + " Kg");
+                                            + "masa = " + Float.toString(resul) + " Kg");*/
                             txt_masa.setText(Float.toString(resul));
                         } else {
                             Snackbar.make(view, "Faltan datos", Snackbar.LENGTH_LONG)
@@ -162,13 +168,13 @@ public class momentum_1 extends Fragment {
                             moment = Float.valueOf(String.valueOf(txt_momentum.getText()));
                             m = Float.valueOf(String.valueOf(txt_masa.getText()));
                             resul = moment / m;
-                            solucion.setText(
+                            /*solucion.setText(
                                     "Datos recibidos:\n\n"
                                             + "masa = " + Float.toString(m) + " Kg\n"
                                             + "velocidad = ?\n"
                                             + "momentum = " + Float.toString(moment) + " Kg*m/s\n\n"
                                             + "velocidad = " + Float.toString(moment) + " Kg*m/s / " + Float.toString(m) + " Kg \n"
-                                            + "velocidad = " + Float.toString(resul) + " m/s");
+                                            + "velocidad = " + Float.toString(resul) + " m/s");*/
                             txt_veloc.setText(Float.toString(resul));
                         } else {
                             Snackbar.make(view, "Faltan datos", Snackbar.LENGTH_LONG)
@@ -181,6 +187,21 @@ public class momentum_1 extends Fragment {
                         Snackbar.make(view, "Error no conocido", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
+                }
+                if(!(txt_ang.length() == 0) && (gravedad.getSelectedItemPosition() != 0)){
+                    Snackbar.make(view, "Ver ejercicio", Snackbar.LENGTH_LONG)
+                            //.setActionTextColor(Color.CYAN)
+                            .setActionTextColor(getResources().getColor(R.color.snackbar_action))
+                            .setAction("Presioname", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Fragment estado = ejercicio_1.newInstance(Double.valueOf(String.valueOf(txt_veloc.getText())),Double.valueOf(String.valueOf(txt_ang.getText())),9.8);
+                                    getActivity().getSupportFragmentManager().beginTransaction()
+                                            .replace(R.id.content_main, estado).addToBackStack(null)
+                                                .commit();
+                                }
+                            })
+                            .show();
                 }
             }
         });

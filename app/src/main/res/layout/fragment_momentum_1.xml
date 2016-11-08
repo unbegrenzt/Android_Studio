@@ -9,13 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <GridLayout android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <GridLayout android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:columnCount="4"
-        android:rowCount="10"
+        android:rowCount="15"
         android:useDefaultMargins="true">
 
         <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
             android:layout_columnSpan="4"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/p_1"/>
@@ -89,6 +91,42 @@
             android:layout_height="wrap_content"
             android:layout_row="5"
             android:layout_column="0"
+            android:text="ángulo = "
+            android:textColor="#0033ff"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="5"
+            android:id="@+id/txt_ang"
+            android:layout_column="1"
+            android:layout_row="5" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="6"
+            android:layout_column="0"
+            android:text="gravedad ="
+            android:textColor="#ff0022"
+            android:textSize="18sp"/>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner_grav"
+            android:layout_row="6"
+            android:layout_column="1"
+            android:theme="@style/AppTheme"
+            android:elevation="1dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="7"
+            android:layout_column="0"
             android:text="¿Qué desea conocer?"
             android:textColor="#000dff"
             android:textSize="18sp"/>
@@ -97,7 +135,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/spinner"
-            android:layout_row="6"
+            android:layout_row="8"
             android:layout_column="0"
             android:theme="@style/AppTheme"
             android:elevation="1dp" />
@@ -110,20 +148,6 @@
             android:background="#01c4ff"
             android:layout_columnSpan="4"
             android:layout_gravity="center_horizontal"/>
-
-        <TextView
-            android:layout_columnSpan="4"
-            android:layout_gravity="left"
-            android:text="Solución:"
-            android:textColor="#000000"
-            android:textSize="20sp"/>
-
-        <TextView android:layout_columnSpan="4"
-            android:layout_gravity="left"
-            android:textColor="#000000"
-            android:text=""
-            android:textSize="19sp"
-            android:id="@+id/soluc"/>
 
     </GridLayout>
 

@@ -3,11 +3,13 @@ package com.example.unbegrenzt.fisicab;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.MediaController;
+import android.widget.VideoView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +30,8 @@ public class about extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private FloatingActionButton fab;
+    private VideoView video;
 
     public about() {
         // Required empty public constructor
@@ -64,7 +68,25 @@ public class about extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.about, container, false);
+        super.onCreateView(inflater, container, savedInstanceState);
+        View v =  inflater.inflate(R.layout.about, container, false);
+        if(v != null){
+            video = (VideoView) v.findViewById(R.id.videoView);
+        }
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(final View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        String videopath = "android.resource://com.example.unbegrenzt.fisicab/"+R.raw.doc;
+        Uri uri = Uri.parse(videopath);
+        video.setVideoURI(uri);
+        MediaController controller = new MediaController(getContext());
+        controller.setAnchorView(video);
+        controller.setMediaPlayer(video);
+        video.setMediaController(controller);
+        video.start();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
