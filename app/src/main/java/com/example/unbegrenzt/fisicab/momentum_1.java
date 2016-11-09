@@ -1,12 +1,17 @@
 package com.example.unbegrenzt.fisicab;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +20,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import static com.example.unbegrenzt.fisicab.R.id.textView;
 
 
 /**
@@ -35,13 +47,14 @@ public class momentum_1 extends Fragment {
     private String mParam1;
     private String mParam2;
     private String[]datossp = {"-Seleccione-","momentum","masa","velocidad"};
-    private String[]datossp2 = {"-Seleccione-","Mercurio","Venus","Tierra","Marte","Júpiter","Saturno",
-            "Urano","Neptuno","Plutón"};
     private EditText txt_masa;
     private EditText txt_veloc;
     private EditText txt_ang;
-    private Spinner gravedad;
+    private EditText txt_grav;
     private EditText txt_momentum;
+    private FloatingActionButton save1;
+    private FloatingActionButton load1;
+    private EditText txt_int;
     private Button btn_cal;
     private Spinner sp_opc;
 
@@ -92,10 +105,11 @@ public class momentum_1 extends Fragment {
             txt_ang = (EditText) v.findViewById(R.id.txt_ang);
             btn_cal = (Button) v.findViewById(R.id.btn_cal);
             sp_opc = (Spinner) v.findViewById(R.id.spinner);
-            gravedad = (Spinner) v.findViewById(R.id.spinner_grav);
-            ArrayAdapter adapter = new ArrayAdapter(getActivity().getApplicationContext(),R.layout.spiner_theme,datossp2);
+            txt_grav = (EditText)v.findViewById(R.id.txt_grav);
+            txt_int = (EditText) v.findViewById(R.id.txt_int);
+            save1 = (FloatingActionButton)v.findViewById(R.id.save1);
+            load1 = (FloatingActionButton)v.findViewById(R.id.load1);
             ArrayAdapter adaptor = new ArrayAdapter(getActivity().getApplicationContext(), R.layout.spiner_theme, datossp);
-            gravedad.setAdapter(adapter);
             sp_opc.setAdapter(adaptor);
         }
         return v;
@@ -104,6 +118,88 @@ public class momentum_1 extends Fragment {
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        load1.setOnClickListener(new View.OnClickListener()
+        {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                try
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                    builder.setTitle("Información");
+
+                    builder.setMessage("Cargar los datos guardados?")
+                            .setCancelable(false)
+                            .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    InputStream fin = getActivity().getResources().openRawResource(R.raw.momento);
+                                    BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
+                                    String texto = "";
+                                    String cadena = "";
+                                    if(fin != null) {
+                                        try {
+                                            while ((cadena = reader.readLine()) != null) {
+                                                texto = texto.concat(cadena + "!");
+                                            }
+                                            String[] cad = texto.split("!");
+                                            txt_masa.setText(cad[0]);
+                                            txt_veloc.setText(cad[1]);
+                                            txt_momentum.setText(cad[2]);
+                                            txt_ang.setText(cad[3]);
+                                            txt_grav.setText(cad[4]);
+                                            txt_int.setText(cad[5]);
+                                            Log.i("valor",texto);
+                                        }catch (Exception e){
+                                            Log.i("error1",e.getMessage());
+                                        }
+                                    }
+                                    try {
+                                        fin.close();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            }).show();
+
+                }
+                catch (Exception ex)
+                {
+                    Log.e("Ficheros", "Error al leer fichero desde la memoria interna");
+                }
+
+            }
+        });
+
+        save1.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v) {
+                try {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Información");
+                    builder.setMessage("Cargar los datos guardados?")
+                            .setCancelable(false)
+                            .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            }).show();
+                }catch (Exception e){
+
+                }
+            }
+        });
+
         btn_cal.setOnClickListener(new View.OnClickListener()
         {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -137,7 +233,7 @@ public class momentum_1 extends Fragment {
                                             + "momentum = " + Float.toString(resul) + " Kg*m/s");*/
                             txt_momentum.setText(Float.toString(resul));
                         } else {
-                            Snackbar.make(view, "Faltan datos", Snackbar.LENGTH_LONG)
+                            Snackbar.make(view, "Faltan datos, masa ó velocidad", Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
                         }
                         break;
@@ -157,7 +253,7 @@ public class momentum_1 extends Fragment {
                                             + "masa = " + Float.toString(resul) + " Kg");*/
                             txt_masa.setText(Float.toString(resul));
                         } else {
-                            Snackbar.make(view, "Faltan datos", Snackbar.LENGTH_LONG)
+                            Snackbar.make(view, "Faltan datos, momentum ó velocidad", Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
                         }
                         break;
@@ -177,7 +273,7 @@ public class momentum_1 extends Fragment {
                                             + "velocidad = " + Float.toString(resul) + " m/s");*/
                             txt_veloc.setText(Float.toString(resul));
                         } else {
-                            Snackbar.make(view, "Faltan datos", Snackbar.LENGTH_LONG)
+                            Snackbar.make(view, "Faltan datos, momentum o masa", Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
                         }
                         break;
@@ -188,14 +284,15 @@ public class momentum_1 extends Fragment {
                                 .setAction("Action", null).show();
                     }
                 }
-                if(!(txt_ang.length() == 0) && (gravedad.getSelectedItemPosition() != 0)){
-                    Snackbar.make(view, "Ver ejercicio", Snackbar.LENGTH_LONG)
+                if(!(txt_ang.length() == 0) && !(txt_grav.length() == 0) && !(txt_veloc.length() == 0)){
+                    Snackbar.make(view, "Ver gráfica", Snackbar.LENGTH_LONG)
                             //.setActionTextColor(Color.CYAN)
                             .setActionTextColor(getResources().getColor(R.color.snackbar_action))
                             .setAction("Presioname", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Fragment estado = ejercicio_1.newInstance(Double.valueOf(String.valueOf(txt_veloc.getText())),Double.valueOf(String.valueOf(txt_ang.getText())),9.8);
+                                    Fragment estado = ejercicio_1.newInstance(Double.parseDouble(String.valueOf(txt_veloc.getText())),
+                                            Double.parseDouble(String.valueOf(txt_ang.getText())),Double.parseDouble(String.valueOf(txt_grav.getText())),0,0,Double.parseDouble(String.valueOf(txt_int.getText())));
                                     getActivity().getSupportFragmentManager().beginTransaction()
                                             .replace(R.id.content_main, estado).addToBackStack(null)
                                                 .commit();
